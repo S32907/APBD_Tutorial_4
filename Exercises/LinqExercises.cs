@@ -93,7 +93,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task05_IsThereAnyInactiveEnrollment()
     {
-        throw NotImplemented(nameof(Task05_IsThereAnyInactiveEnrollment));
+        bool hasInactive = UniversityData.Enrollments
+            .Any(e => e.IsActive == false);
+
+        return new List<string> { hasInactive ? "Yes" : "No" };
     }
 
     /// <summary>
@@ -108,7 +111,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task06_DoAllLecturersHaveDepartment()
     {
-        throw NotImplemented(nameof(Task06_DoAllLecturersHaveDepartment));
+        bool allHaveDepartment = UniversityData.Lecturers
+            .All(l => l.Department != null);
+
+        return new List<string> { allHaveDepartment ? "Yes" : "No" };
     }
 
     /// <summary>
@@ -122,7 +128,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task07_CountActiveEnrollments()
     {
-        throw NotImplemented(nameof(Task07_CountActiveEnrollments));
+        int numberOfEnrolments = UniversityData.Enrollments
+            .Count(e => e.IsActive == true);
+
+        return new List<string> {$"Number of active enrollments - {numberOfEnrolments}" };
     }
 
     /// <summary>
@@ -136,7 +145,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task08_DistinctStudentCities()
     {
-        throw NotImplemented(nameof(Task08_DistinctStudentCities));
+        var result = from s in UniversityData.Students
+            select s.City;
+
+        return result.Distinct().OrderBy(c => c);
     }
 
     /// <summary>
