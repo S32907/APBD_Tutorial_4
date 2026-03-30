@@ -227,7 +227,7 @@ public sealed class LinqExercises
         return from e in UniversityData.Enrollments
             join s in UniversityData.Students on e.StudentId equals s.Id
             join c in UniversityData.Courses on e.CourseId equals c.Id
-            select $"Full name - {s.FirstName} {s.LastName} Course title - {c.Title}";
+            select $"Full name - {s.FirstName} {s.LastName}, Course title - {c.Title}";
     }
 
     /// <summary>
@@ -242,7 +242,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task13_GroupEnrollmentsByCourse()
     {
-        throw NotImplemented(nameof(Task13_GroupEnrollmentsByCourse));
+        return from e in UniversityData.Enrollments
+            join c in UniversityData.Courses on e.CourseId equals c.Id
+            group e by c.Title into g
+            select $"Title - {g.Key}, Number of enrolments - {g.Count()} ";
     }
 
     /// <summary>
@@ -259,7 +262,11 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task14_AverageGradePerCourse()
     {
-        throw NotImplemented(nameof(Task14_AverageGradePerCourse));
+        return from e in UniversityData.Enrollments
+            where e.FinalGrade != null
+            join c in UniversityData.Courses on e.CourseId equals c.Id
+            group e by c.Title into g
+            select $"Tital - {g.Key}, Average grade - {g.Average(x => x.FinalGrade)}";
     }
 
     /// <summary>
@@ -275,7 +282,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task15_LecturersAndCourseCounts()
     {
-        throw NotImplemented(nameof(Task15_LecturersAndCourseCounts));
+        return from l in UniversityData.Lecturers
+            join c in UniversityData.Courses
+                on l.Id equals c.LecturerId into courses
+            select $"Full name - {l.FirstName} {l.LastName}, Number of courses - {courses.Count()}";
     }
 
     /// <summary>
@@ -292,7 +302,11 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task16_HighestGradePerStudent()
     {
-        throw NotImplemented(nameof(Task16_HighestGradePerStudent));
+        return from s in UniversityData.Students
+            join e in UniversityData.Enrollments on s.Id equals e.StudentId
+            where e.FinalGrade != null
+            group e by new { s.FirstName, s.LastName } into g
+            select $"Full name - {g.Key.FirstName} {g.Key.LastName}, Max grade - {g.Max(x => x.FinalGrade)}";
     }
 
     /// <summary>
