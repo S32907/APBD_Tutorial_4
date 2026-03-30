@@ -163,7 +163,13 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task09_ThreeNewestEnrollments()
     {
-        throw NotImplemented(nameof(Task09_ThreeNewestEnrollments));
+        var result = (from e in UniversityData.Enrollments
+                orderby e.EnrollmentDate descending
+                select e)
+            .Take(3)
+            .Select(e => $"EnrollmentDate: {e.EnrollmentDate}, StudentId: {e.StudentId}, CourseId: {e.CourseId}");
+
+        return result;
     }
 
     /// <summary>
@@ -179,7 +185,12 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task10_SecondPageOfCourses()
     {
-        throw NotImplemented(nameof(Task10_SecondPageOfCourses));
+        var result = (from c in UniversityData.Courses
+            orderby c.Title
+            select c).Skip(2).Take(2)
+            .Select(c => $"Course title - {c.Title}, Category: {c.Category}");
+        
+        return result;
     }
 
     /// <summary>
@@ -194,7 +205,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task11_JoinStudentsWithEnrollments()
     {
-        throw NotImplemented(nameof(Task11_JoinStudentsWithEnrollments));
+        return from s in UniversityData.Students
+            join e in UniversityData.Enrollments
+                on s.Id equals e.StudentId
+            select $"Full name - {s.FirstName} {s.LastName}, Enrolment date - {e.EnrollmentDate}";
     }
 
     /// <summary>
@@ -210,7 +224,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task12_StudentCoursePairs()
     {
-        throw NotImplemented(nameof(Task12_StudentCoursePairs));
+        return from e in UniversityData.Enrollments
+            join s in UniversityData.Students on e.StudentId equals s.Id
+            join c in UniversityData.Courses on e.CourseId equals c.Id
+            select $"Full name - {s.FirstName} {s.LastName} Course title - {c.Title}";
     }
 
     /// <summary>
