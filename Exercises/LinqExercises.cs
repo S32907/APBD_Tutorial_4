@@ -16,7 +16,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task01_StudentsFromWarsaw()
     {
-        throw NotImplemented(nameof(Task01_StudentsFromWarsaw));
+        var result = from s in UniversityData.Students
+            where s.City == "Warsaw"
+            select $"Student {s.FirstName} {s.LastName} with id {s.Id} lives in {s.City}";
+        return result;
     }
 
     /// <summary>
@@ -30,7 +33,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task02_StudentEmailAddresses()
     {
-        throw NotImplemented(nameof(Task02_StudentEmailAddresses));
+        var result = UniversityData.Students.Select(e => e.Email);
+        return result;
     }
 
     /// <summary>
@@ -45,7 +49,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task03_StudentsSortedAlphabetically()
     {
-        throw NotImplemented(nameof(Task03_StudentsSortedAlphabetically));
+        var result = from s in UniversityData.Students
+            orderby s.LastName, s.FirstName
+            select $"Index number - {s.IndexNumber} Full name - {s.FirstName} {s.LastName}";
+        return result;
     }
 
     /// <summary>
@@ -60,7 +67,16 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task04_FirstAnalyticsCourse()
     {
-        throw NotImplemented(nameof(Task04_FirstAnalyticsCourse));
+        var result = (from c in UniversityData.Courses
+            where c.Category == "Analytics"
+            select c).FirstOrDefault();
+        if (result == null)
+        {
+            return new List<string> {"Such course does not exist"};
+        }
+        
+        return  new List<string> { $"Course title - {result.Title}, starting date - {result.StartDate}"};
+            
     }
 
     /// <summary>
